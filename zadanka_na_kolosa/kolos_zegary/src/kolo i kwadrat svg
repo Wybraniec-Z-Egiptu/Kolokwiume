@@ -1,0 +1,37 @@
+Kolo a kwadrat jest w zadaniu
+public void toSvg(String path) {
+        try (PrintWriter writer = new PrintWriter(path)) {
+
+            // 1. Nagłówek SVG
+            writer.println("<svg width=\"200\" height=\"200\" viewBox=\"0 0 200 200\" xmlns=\"http://www.w3.org/2000/svg\">");
+
+            // 2. Tarcza zegara - KWADRAT
+            // Startujemy w (5,5), szerokość i wysokość 190, co daje nam idealne wyśrodkowanie na polu 200x200
+            writer.println("  <rect x=\"5\" y=\"5\" width=\"190\" height=\"190\" stroke=\"black\" stroke-width=\"3\" fill=\"white\" />");
+
+            // 3. Pętla rysująca 12 kresek (indeksów godzinowych)
+            // Ta część jest u Ciebie idealna – matematyka oparta na środku (100,100) pasuje do kwadratu.
+            for (int i = 0; i < 12; i++) {
+                double angle = Math.toRadians(i * 30);
+
+                double x1 = 100 + 80 * Math.sin(angle);
+                double y1 = 100 - 80 * Math.cos(angle);
+
+                double x2 = 100 + 90 * Math.sin(angle);
+                double y2 = 100 - 90 * Math.cos(angle);
+
+                writer.println(String.format(
+                        "  <line x1=\"%.2f\" y1=\"%.2f\" x2=\"%.2f\" y2=\"%.2f\" stroke=\"black\" stroke-width=\"2\" />",
+                        x1, y1, x2, y2
+                ));
+            }
+
+            // 4. Zamknięcie znacznika SVG
+            writer.println("</svg>");
+
+            System.out.println("Plik SVG (kwadratowy) został wygenerowany: " + path);
+
+        } catch (FileNotFoundException e) {
+            System.err.println("Błąd: Nie można utworzyć pliku SVG. " + e.getMessage());
+        }
+    }
